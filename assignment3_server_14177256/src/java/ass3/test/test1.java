@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nz.ac.massey.cs.webtech.ass3.s_14177256.server;
+package ass3.test;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -34,7 +34,24 @@ public class test1 extends HttpServlet {
     private static List<Element> xmlList;
     private static Element root;
     private static String filename;
-    private Document document;
+    private static Document document=null;
+    
+    @Override
+    public void init(){
+        filename = this.getServletContext().getRealPath("/data.xml");
+        SAXBuilder builder = new SAXBuilder();
+        System.out.print(filename);
+//        document = null;
+        try {
+            document = builder.build(filename);
+        } catch (JDOMException ex) {
+            Logger.getLogger(test1.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(test1.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        root = document.getRootElement();
+        xmlList = root.getChildren("todo");
+    }
     
     private void readXmlFile(){
         SAXBuilder builder = new SAXBuilder();
@@ -60,11 +77,13 @@ public class test1 extends HttpServlet {
         }
     }
     
-    private void addTodo(String id,String description){
+    private void insertTodo(String id,String description){
+        System.out.println("insertodo---id is:"+id+"desc is"+description);
         Element newElement=new Element("todo");
         newElement.addContent(new Element("id").setText(id));
         newElement.addContent(new Element("description").setText(description));
         xmlList.add(newElement);
+        saveXml();
     }
     
     private boolean deleteTodo(String id) {
@@ -102,18 +121,18 @@ public class test1 extends HttpServlet {
      * @throws ServletException if a servlet-specific error occurs
      * @throws IOException if an I/O error occurs
      */
-    protected void processRequest(HttpServletRequest request, HttpServletResponse response)
+    protected void processRequestGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
                 
-        filename = this.getServletContext().getRealPath("/data.xml");
-                readXmlFile();
-//                addTodo("1001", "1001add todo test");
+//        filename = this.getServletContext().getRealPath("/data.xml");
+//                readXmlFile();
+                insertTodo("9001", "1001add todo test");
                  String rtrn=null;
                 System.out.println(xmlList.size());
 //                deleteTodo("1000");
-                if (updateTodo("1001", "the todo updated")) {
-                    rtrn="update success";
-                }
+//                if (updateTodo("1001", "the todo updated")) {
+//                    rtrn="update success";
+//                }
                 System.out.println(xmlList.size());
                 saveXml();
 
@@ -145,7 +164,7 @@ public class test1 extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+        processRequestGet(request, response);
     }
 
     /**
@@ -159,7 +178,8 @@ public class test1 extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
+//        processRequest(request, response);
+        
     }
 
     /**
@@ -171,6 +191,8 @@ public class test1 extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }
+    
+    
 }
     
 

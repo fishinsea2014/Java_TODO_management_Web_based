@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package nz.ac.massey.cs.webtech.ass3.s_14177256.server;
+package ass3.test;
 
 import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+
 
 //import javax.xml.parsers.*;
 //import org.apache.log4j.Logger;

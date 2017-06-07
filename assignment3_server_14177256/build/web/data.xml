@@ -1,11 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <todos>
-    
-    
-    
-    
     <todo>
-        <id>401</id>
+        <id>101065</id>
+        <description>get a class member variables</description>
+    </todo>
+    <todo>
+        <id>102654</id>
+        <description>set a class member variables</description>
+    </todo>
+    <todo>
+        <id>201798</id>
+        <description>construct a class</description>
+    </todo>
+    <todo>
+        <id>3018761</id>
+        <description>surround with a try or catch block</description>
+    </todo>
+    <todo>
+        <id>401654</id>
         <description>throw an exception</description>
     </todo>
-<todo><id>1001</id><description>the todo updated</description></todo><todo><id>1001</id><description>1001add todo test</description></todo><todo><id>1001</id><description>1001add todo test</description></todo></todos>
+</todos>
