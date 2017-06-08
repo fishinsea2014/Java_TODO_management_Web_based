@@ -203,7 +203,7 @@ public class TODOManagerServlet extends HttpServlet {
             throws ServletException, IOException {
 //        processRequest(request, response);
         String requestUri = request.getRequestURI();
-        String sPath = request.getServletPath();
+//        String sPath = request.getServletPath();
         PrintWriter out = response.getWriter();
 
         String srch = request.getParameter("search");
@@ -298,7 +298,7 @@ public class TODOManagerServlet extends HttpServlet {
         filename = this.getServletContext().getRealPath("/data.xml");
         readXmlFile();
         String requestUri = req.getRequestURI();
-        String sPath = req.getServletPath();
+//        String sPath = req.getServletPath();
         PrintWriter out = resp.getWriter();
 
         resp.setContentType("text/html;charset=UTF-8");
@@ -333,7 +333,7 @@ public class TODOManagerServlet extends HttpServlet {
         filename = this.getServletContext().getRealPath("/data.xml");
         String requestUri = req.getRequestURI();
         System.out.println(requestUri);
-        String sPath = req.getServletPath();
+//        String sPath = req.getServletPath();
         PrintWriter out = resp.getWriter();
 
         resp.setContentType("text/html;charset=UTF-8");
