@@ -5,7 +5,7 @@
  */
 package nz.ac.massey.cs.webtech.ass3.s_14177256.server;
 
-import ass3.test.test1;
+
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileWriter;
@@ -39,12 +39,12 @@ import java.util.logging.Logger;
 public class TODOManagerServlet extends HttpServlet {
 
     private static List<Element> xmlList;
-    private static Element root;
-    private static String filename;
+    private  static Element root;
+//    private static  String filename;
     private Document document;
-    private static JSONArray todos;
-    private static JSONObject todo = new JSONObject();
-    private static SAXBuilder builder;
+//    private static JSONArray todos;
+//    private static JSONObject todo = new JSONObject();
+//    private static SAXBuilder builder;
 
     private JSONArray getAll() throws Exception {
         JSONArray returArray = getElements("all");
@@ -62,7 +62,7 @@ public class TODOManagerServlet extends HttpServlet {
         }
     }
 
-    private boolean update(JSONObject todo) {
+    private boolean update(JSONObject todo) throws Exception {
         readXmlFile();
         try {
             String id = todo.getString("id").toString();
@@ -93,7 +93,7 @@ public class TODOManagerServlet extends HttpServlet {
     }
 
     private JSONArray search(String keyword) throws Exception {
-        filename = this.getServletContext().getRealPath("/data.xml");
+        String filename = this.getServletContext().getRealPath("/data.xml");
 
         readXmlFile();
         JSONArray rtrn = new JSONArray();
@@ -110,31 +110,36 @@ public class TODOManagerServlet extends HttpServlet {
     }
 
     //Basic functions to operate the xml data.
-    private void readXmlFile() {
-        builder = new SAXBuilder();
+    private void readXmlFile() throws Exception {
+        SAXBuilder builder = new SAXBuilder();
+//        xmlList=new ArrayList<Element>();
+        String filename = this.getServletContext().getRealPath("/data.xml");
         System.out.print(filename);
         document = null;
         try {
             document = builder.build(filename);
         } catch (JDOMException ex) {
-            Logger.getLogger(test1.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TODOManagerServlet.class.getName()).log(Level.SEVERE, null, ex);
         } catch (IOException ex) {
-            Logger.getLogger(test1.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TODOManagerServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
         root = document.getRootElement();
         xmlList = root.getChildren("todo");
+        
     }
 
     private void saveXml() {
+        String filename = this.getServletContext().getRealPath("/data.xml");
         XMLOutputter XMLOut = new XMLOutputter();
         try {
             XMLOut.output(document, new FileOutputStream(filename));
         } catch (Exception ex) {
-            Logger.getLogger(test1.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(TODOManagerServlet.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
 
     private void insertTodo(String id, String description) {
+        String filename = this.getServletContext().getRealPath("/data.xml");
         filename = this.getServletContext().getRealPath("/data.xml");
         readXmlFile();
 //        System.out.println("insertodo---id is:" + id + "desc is" + description);
@@ -172,6 +177,7 @@ public class TODOManagerServlet extends HttpServlet {
         return false;
     }
 
+    //Useless method
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -203,7 +209,7 @@ public class TODOManagerServlet extends HttpServlet {
             throws ServletException, IOException {
 //        processRequest(request, response);
         String requestUri = request.getRequestURI();
-        String sPath = request.getServletPath();
+//        String sPath = request.getServletPath();
         PrintWriter out = response.getWriter();
 
         String srch = request.getParameter("search");
@@ -265,6 +271,7 @@ public class TODOManagerServlet extends HttpServlet {
             String description = request.getParameter("description");
             int idN = Integer.parseInt(id);
 
+            JSONObject todo=new JSONObject();
             todo.put("id", id);
             todo.put("description", description);
             System.out.println("post params: id: " + id + ", desc" + description);
@@ -291,12 +298,15 @@ public class TODOManagerServlet extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doDelete(req, resp);
-        filename = this.getServletContext().getRealPath("/data.xml");
-        readXmlFile();
+        String filename = this.getServletContext().getRealPath("/data.xml");
+        try {
+            readXmlFile();
+        } catch (Exception ex) {
+            Logger.getLogger(TODOManagerServlet.class.getName()).log(Level.SEVERE, null, ex);
+        }
         String requestUri = req.getRequestURI();
         String sPath = req.getServletPath();
         PrintWriter out = resp.getWriter();
@@ -330,7 +340,7 @@ public class TODOManagerServlet extends HttpServlet {
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         super.doPut(req, resp); //To change body of generated methods, choose Tools | Templates.
-        filename = this.getServletContext().getRealPath("/data.xml");
+        String filename = this.getServletContext().getRealPath("/data.xml");
         String requestUri = req.getRequestURI();
         System.out.println(requestUri);
         String sPath = req.getServletPath();
@@ -365,12 +375,12 @@ public class TODOManagerServlet extends HttpServlet {
     }
 
     private JSONArray getElements(String ids) throws Exception {
-        todos = new JSONArray();
+        JSONArray todos = new JSONArray();
 //        SAXBuilder builder = new SAXBuilder();
-        filename = this.getServletContext().getRealPath("/data.xml");
+        String filename = this.getServletContext().getRealPath("/data.xml");
 //        System.out.print(filename);
 //        Document document = builder.build(filename);
-//        Element root = document.getRootElement();
+        root = document.getRootElement();
         
         readXmlFile();
         List ts = root.getChildren("todo");

@@ -1,7 +1,6 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * When test for second time, please override data.xml withe contents of data_org.xml,
+ * for after test, data.xml has been changed.
  */
 
 import java.io.FileOutputStream;
